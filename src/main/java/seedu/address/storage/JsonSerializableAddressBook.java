@@ -14,6 +14,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.rsvp.Rsvp;
+import seedu.address.model.vendor.Vendor;
 import seedu.address.model.venue.Venue;
 
 /**
@@ -26,11 +27,15 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_EVENT = "Events list contains duplicate events(s).";
     public static final String MESSAGE_DUPLICATE_VENUE = "Venues list contains duplicate venue(s).";
     public static final String MESSAGE_DUPLICATE_RSVP = "RSVPs list contains duplicate venue(s).";
+    public static final String MESSAGE_DUPLICATE_VENDOR = "Vendors list contains duplicate vendor(s).";
+
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedEvent> events = new ArrayList<>();
     private final List<JsonAdaptedVenue> venues = new ArrayList<>();
     private final List<JsonAdaptedRsvp> rsvps = new ArrayList<>();
+    private final List<JsonAdaptedVendor> vendors = new ArrayList<>();
+
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
@@ -40,11 +45,13 @@ class JsonSerializableAddressBook {
             @JsonProperty("persons") List<JsonAdaptedPerson> persons,
             @JsonProperty("events") List<JsonAdaptedEvent> events,
             @JsonProperty("venues") List<JsonAdaptedVenue> venues,
-            @JsonProperty("rsvps") List<JsonAdaptedRsvp> rsvps) {
+            @JsonProperty("rsvps") List<JsonAdaptedRsvp> rsvps,
+            @JsonProperty("vendors") List<JsonAdaptedVendor> vendors) {
         this.persons.addAll(persons);
         this.events.addAll(events);
         this.venues.addAll(venues);
         this.rsvps.addAll(rsvps);
+        this.vendors.addAll(vendors);
     }
 
     /**
@@ -57,6 +64,7 @@ class JsonSerializableAddressBook {
         events.addAll(source.getEventList().stream().map(JsonAdaptedEvent::new).collect(Collectors.toList()));
         venues.addAll(source.getVenueList().stream().map(JsonAdaptedVenue::new).collect(Collectors.toList()));
         rsvps.addAll(source.getRsvpList().stream().map(JsonAdaptedRsvp::new).collect(Collectors.toList()));
+        vendors.addAll(source.getVendorList().stream().map(JsonAdaptedVendor::new).collect(Collectors.toList()));
     }
 
     /**
@@ -96,6 +104,14 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_RSVP);
             }
             addressBook.addRsvp(rsvp);
+        }
+
+        for (JsonAdaptedVendor jsonAdaptedVendor : vendors) {
+            Vendor vendor = jsonAdaptedVendor.toModelType();
+            if (addressBook.hasVendor(vendor)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_VENDOR);
+            }
+            addressBook.addVendor(vendor);
         }
         return addressBook;
     }
