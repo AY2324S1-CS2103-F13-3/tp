@@ -42,6 +42,9 @@ public class DeleteVendorCommand extends Command {
 
         Vendor vendorToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deleteVendor(vendorToDelete);
+        // Clear set event to view
+        model.setEventToView(null);
+        model.updateFilteredVendorList(Model.PREDICATE_SHOW_ALL_VENDOR);
         return new CommandResult(String.format(MESSAGE_DELETE_VENDOR_SUCCESS, Messages.format(vendorToDelete)));
     }
 
