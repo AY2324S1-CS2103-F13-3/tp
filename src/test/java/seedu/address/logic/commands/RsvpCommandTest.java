@@ -46,8 +46,9 @@ public class RsvpCommandTest {
 
     @Test
     public void execute_rsvpCommand_success() {
-        model.addPerson(ALICE);
-        model.addEvent(ACADEMIC);
+        Model commandModel = new ModelManager();
+        commandModel.addPerson(ALICE);
+        commandModel.addEvent(ACADEMIC);
         Index validIndex = Index.fromZeroBased(0);
         RsvpCommand rsvpCommand = new RsvpCommand(validIndex, validIndex, RsvpStatus.CC);
 
@@ -59,6 +60,6 @@ public class RsvpCommandTest {
         String expectedSuccessMessage =
                 String.format(RsvpCommand.MESSAGE_SUCCESS, ACADEMIC.getName(), ALICE.getName(),
                         RsvpStatus.CC.getStatus());
-        assertCommandSuccess(rsvpCommand, model, expectedSuccessMessage, expectedModel);
+        assertCommandSuccess(rsvpCommand, commandModel, expectedSuccessMessage, expectedModel);
     }
 }
