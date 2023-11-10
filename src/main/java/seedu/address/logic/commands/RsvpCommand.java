@@ -40,6 +40,9 @@ public class RsvpCommand extends Command {
      * Creates an RSVPCommand to set the specified {@code RSVP}
      */
     public RsvpCommand(Index eventIndex, Index personIndex, RsvpStatus rsvpStatus) {
+        requireNonNull(eventIndex);
+        requireNonNull(personIndex);
+        requireNonNull(rsvpStatus);
         this.eventIndex = eventIndex;
         this.personIndex = personIndex;
         this.rsvpStatus = rsvpStatus;

@@ -52,6 +52,24 @@ public class Rsvp {
                 && otherRsvp.getPerson().equals(getPerson());
     }
 
+    //For testing
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof Rsvp)) {
+            return false;
+        }
+
+        Rsvp otherRsvp = (Rsvp) other;
+        return event.equals(otherRsvp.event)
+                && person.equals(otherRsvp.person)
+                && rsvpStatus.equals(otherRsvp.rsvpStatus);
+    }
+
     // To Resolve Law of Demeter.
     public Name getPersonName() {
         return person.getName();
